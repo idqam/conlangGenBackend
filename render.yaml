@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: conlang-backend
+    env: docker
+    plan: free
+    repo: https://github.com/YOUR_GITHUB_USERNAME/conlang_backend
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 8000
