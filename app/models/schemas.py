@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Dict, List, Optional
 
 class PhonoTest(BaseModel):
@@ -33,12 +33,21 @@ class VowelHarmonySpec(BaseModel):
 class PhonologySpec(BaseModel):
     activeVowels: Optional[List[str]]
     activeConsonants: Optional[List[str]]
+   
     mapping: Optional[Dict[str, str]] 
     allowedSyllables: Optional[List[str]] = ""
     transformationRules: Optional[str] = ""
-    consonantClusters: Optional[str] = ""
-    vowelClusters: Optional[str] = ""
-    vowelHarmony: Optional[VowelHarmonySpec] = None  
+    consonantClusters: Optional[List[str]] = None  
+    vowelClusters: Optional[List[str]] = None 
+    vowelHarmony: Optional["VowelHarmonySpec"] = None  
+
+    @field_validator("consonantClusters", "vowelClusters", mode="before")
+    @classmethod
+    def split_comma_separated(cls, value):
+        if isinstance(value, str):
+            return value.split(",") 
+        return value  
+
 
 
 
