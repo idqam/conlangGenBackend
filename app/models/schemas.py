@@ -5,24 +5,21 @@ class PhonoTest(BaseModel):
     activeVowels: Optional[List[str]]
     activeConsonants: Optional[List[str] ]
 
-
-# Additional Features Model
 class AdditionalFeatureSpec(BaseModel):
     grammaticalGender: Optional[str] = ""
-    evidentiality: Optional[str] = ""
-    politeness: Optional[str] = ""
     negation: Optional[str] = ""
     pronounSystem: Optional[str] = ""
 
-# Grammar Specification Model
 class GrammarSpec(BaseModel):
-    morphology:Optional[str] = ""
+    morphology: Optional[str] = ""
     wordOrder: Optional[str] = ""
     nounCases: Optional[str] = ""
-    verbConjugation:Optional[str] = ""
-    tenseAspectMood: Optional[str] = ""
+    definedNounCases: Optional[str] = ""
+    verbConjugation: Optional[str] = ""
+    verbTenses: List[str] = []
+    verbAspects: List[str] = []
+    verbMoods: List[str] = []
     additionalFeatures: AdditionalFeatureSpec
-
 
 class VowelHarmonySpec(BaseModel):
     isEnabled: bool
@@ -33,7 +30,8 @@ class VowelHarmonySpec(BaseModel):
 class PhonologySpec(BaseModel):
     activeVowels: Optional[List[str]]
     activeConsonants: Optional[List[str]]
-   
+    vowelFrequencies: Optional[Dict[str, float]] = None
+    consonantFrequencies: Optional[Dict[str, float]] = None
     mapping: Optional[Dict[str, str]] 
     allowedSyllables: Optional[List[str]] = ""
     transformationRules: Optional[str] = ""
