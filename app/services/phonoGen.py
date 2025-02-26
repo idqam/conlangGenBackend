@@ -21,10 +21,10 @@ class PhonologySpec:
         self.activeConsonants = activeConsonants
         
         self.vowelFrequencies = self._normalize_frequencies(
-            vowelFrequencies or {v: random.randint(1, 10) for v in activeVowels}
+            vowelFrequencies or {v: random.random() for v in activeVowels}
         )
         self.consonantFrequencies = self._normalize_frequencies(
-            consonantFrequencies or {c: random.randint(1, 10) for c in activeConsonants}
+            consonantFrequencies or {c: random.random() for c in activeConsonants}
         )
         
         self.mapping = mapping
@@ -155,8 +155,8 @@ def generate_valid_words(phonology: PhonologySpec, wordMax: int) -> List[str]:
       - Contain only allowed IPA clusters (vowel and consonant),
       - And apply vowel harmony (if enabled).
     """
-    words = []
-    for _ in range(wordMax):
+    w = set()
+    while len(w) < wordMax:
         syllable_structure = random.choice(phonology.allowedSyllables)
         base_word = generate_syllable(syllable_structure, phonology)
         transformed_word = apply_transformation_rules(base_word, phonology.transformationRules)
@@ -171,7 +171,8 @@ def generate_valid_words(phonology: PhonologySpec, wordMax: int) -> List[str]:
             continue 
         
         final_word = apply_vowel_harmony(transformed_word, phonology.vowelHarmony)
-        words.append(final_word)
+        w.add(final_word)
+    words = list(w)
     return words
 
 def map_to_user_defined_form(ipa_words: List[str], phonology: PhonologySpec) -> List[str]:

@@ -13,11 +13,11 @@ class WordResponse(BaseModel):
 
 def assign_default_frequencies(phonology: PhonologySpec):
     if phonology.activeVowels and (not phonology.vowelFrequencies or not phonology.vowelFrequencies.keys()):
-        freq = {v: random.randint(1, 10) for v in phonology.activeVowels}
+        freq = {v: random.random() for v in phonology.activeVowels}
         total = sum(freq.values())
         phonology.vowelFrequencies = {k: v / total for k, v in freq.items()}
     if phonology.activeConsonants and (not phonology.consonantFrequencies or not phonology.consonantFrequencies.keys()):
-        freq = {c: random.randint(1, 10) for c in phonology.activeConsonants}
+        freq = {c: random.random() for c in phonology.activeConsonants}
         total = sum(freq.values())
         phonology.consonantFrequencies = {k: v / total for k, v in freq.items()}
 
@@ -32,7 +32,7 @@ def send_words(payload: PayloadSpec):
     assign_default_frequencies(phonology)
     
     try:
-        ipa_words = generate_valid_words(phonology, 200)
+        ipa_words = generate_valid_words(phonology, 400) 
         
         if not ipa_words:
             raise HTTPException(status_code=400, detail="No words could be generated with the given phonology.")
